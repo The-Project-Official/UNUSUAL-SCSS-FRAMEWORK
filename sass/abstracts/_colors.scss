@@ -1,0 +1,154 @@
+@import "./functions";
+
+// Color declarations
+$__colors--black: #130a06;
+$__colors--white: #fdfdff;
+$__colors--red: #ED2939;
+$__colors--blue: #4000ff;
+$__colors--yellow: #FFFD37;
+$__colors--purple: #be29ec;
+$__colors--green: #00cc67;
+
+$__colors--error: red;
+$__colors--info: $__colors--yellow;
+
+// Colors
+$colors-map: (
+    "error": $__colors--error,
+    "info": $__colors--info,
+    "black": (
+        "default-value": $__colors--black,
+        "lighter-variations": (
+            "1": #747474,
+            "2": #474444,
+            "3": #272727,
+            "4": #131313,
+        )
+    ),
+    "white": (
+        "default-value": $__colors--white,
+        "darker-variations": (
+            "1": #f4f4f4,
+            "2": #d6d6d6,
+            "3": #a9a9a9,
+            "4": #000000,
+        )
+    ),
+    "red": (
+        "default-value": $__colors--red,
+        "lighter-variations": (
+            "1": #fe8181,
+            "2": #fe5757
+        ),
+        "darker-variations": (
+            "1": #b62020,
+            "2": #cb2424
+        )
+    ),
+    "blue": (
+        "default-value": $__colors--blue,
+        "lighter-variations": (
+            "1": #bbeeff,
+            "2": #99ccff,
+            "3": #77aaff,
+            "4": #5588ff,
+            "5": #3366ff,
+        ),
+        "darker-variations": (
+            "1": #001eff,
+            "2": #001be7,
+            "3": #0119cb,
+            "4": #021496,
+            "5": #000b5e
+        )
+    ),
+    "green": (
+        "default-value": $__colors--green,
+        "lighter-variations": (
+            "1": #a3e5c4,
+            "2": #65dda1,
+            "3": #39d688
+        ),
+        "darker-variations": (
+            "1": #00cc67,
+            "2": #00d27f,
+            "3": #74d600,
+            "4": #028900
+        )
+    ),
+    "yellow": (
+        "default--value": $__colors--yellow,
+        "lighter-variations": (
+            "1": #ffff99,
+            "2": #ffff66
+        ),
+        "darker-variations": (
+            "1": #f9ea07,
+            "2": #f9e909
+        )
+    ),
+    "purple": (
+        "default-value": $__colors--purple,
+        "lighter-variations": (
+            "1": #efbbff,
+            "2": #d896ff,
+        ),
+        "darker-variations": (
+            "1": #800080,
+            "2": #660066,
+        )
+    )
+);
+
+// Generate Color Classes
+@each $key, $value in $colors-map {
+    @if type-of($value) == "map"
+    {
+        @if map-has-key($value, "default-value")
+        {
+            .text--#{$key} {
+                color: map-get($value, "default-value");
+            }
+
+            .bg--#{$key} {
+                background-color: map-get($value, "default-value");
+            }
+        }
+
+        @if map-has-key($value, "lighter-variations")
+        {
+            @each $vkey, $vvalue in map-get($value, "lighter-variations")
+            {
+                .text--#{$key}--light-#{$vkey} {
+                    color: $vvalue;
+                }
+
+                .bg--#{$key}--light-#{$vkey} {
+                    background-color: $vvalue;
+                }
+            }
+        }
+
+        @if map-has-key($value, "darker-variations")
+        {
+            @each $vkey, $vvalue in map-get($value, "darker-variations")
+            {
+                .text--#{$key}--dark-#{$vkey} {
+                    color: $vvalue;
+                }
+
+                .bg--#{$key}--dark#{$vkey} {
+                    background-color: $vvalue;
+                }
+            }
+        }
+    } @else {
+        .text--#{$key} {
+            color: $value;
+        }
+
+        .bg--#{$key} {
+            color: $value;
+        }
+    }
+};
